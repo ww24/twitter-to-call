@@ -1,9 +1,16 @@
 .*
 !.gitignore
 
+# Windows
 Thumbs.db
 
+# Node.js
 node_modules
-.log
+*.log
+
+# Redis
+*.aof
+*.rdb
+*.pid
 
 account.json
