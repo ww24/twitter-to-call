@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="alice" language="ja-JP">{{greeting}}</Say>
+    <Say voice="alice" language="ja-JP">こちらは、 つぶやき Call です。</Say>
+    <Say voice="alice" language="ja-JP">認証コードを入力して下さい。</Say>
+</Response>

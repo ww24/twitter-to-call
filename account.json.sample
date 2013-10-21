@@ -1,0 +1,10 @@
+{
+  "twitter": {
+    "key": "twitter API consumer key",
+    "secret": "twitter API consumer secret"
+  },
+  "twilio": {
+    "sid": "twilio API sid",
+    "token": "twilio API token"
+  }
+}

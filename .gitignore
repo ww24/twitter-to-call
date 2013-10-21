@@ -1,0 +1,9 @@
+.*
+!.gitignore
+
+Thumbs.db
+
+node_modules
+.log
+
+account.json
