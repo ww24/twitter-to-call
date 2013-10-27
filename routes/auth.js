@@ -3,7 +3,9 @@
  *
  */
 
-var test = {};
+var test = {},
+    models = require("../models"),
+    libs = require("../libs");
 
 var passport = require("passport"),
     TwitterStrategy = require("passport-twitter").Strategy,
@@ -24,12 +26,25 @@ passport.deserializeUser(function(id, done) {
 passport.use(new TwitterStrategy({
     consumerKey: account.twitter.key,
     consumerSecret: account.twitter.secret,
-    callbackURL: "http://tw2c.appcloud.info/auth/callback"
+    callbackURL: "http://localhost:61311/auth/callback"
   },
-  function(token, secret, profile, done) {
-    console.log("token: " + token);
+  function(key, secret, profile, done) {
+    console.log("token: " + key);
     console.log("secret: " + secret);
-    done(null, profile._json);
+
+    var user_id_hex = profile._json.id.toString(16);
+    var user = {
+      id: profile._json.id,
+      screen_name: profile._json.screen_name,
+      profile_image_url: profile._json.profile_image_url,
+      key: key,
+      secret: secret
+    };
+
+    models.users.set(user_id_hex, user, function (err, user) {
+      libs.watch.addUser(user, key, secret);
+      done(err, user);
+    });
   }
 ));
 

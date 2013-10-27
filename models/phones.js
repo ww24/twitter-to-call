@@ -14,6 +14,9 @@ module.exports = function () {
         return callback(err);
       }
 
+      if (! replies)
+        return callback(null, {});
+
       Object.keys(replies).forEach(function (target) {
         replies[target] = JSON.parse(replies[target]);
       });

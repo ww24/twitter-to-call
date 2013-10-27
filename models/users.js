@@ -16,9 +16,30 @@ module.exports = function () {
         return callback(err);
       }
 
+      if (! reply)
+        return callback(null, null);
+
       reply = JSON.parse(reply);
 
       callback(null, reply);
+    });
+  };
+
+  model.getAll = function (callback) {
+    client.hgetall("users", function (err, replies) {
+      if (err) {
+        console.error(err);
+        return callback(err);
+      }
+
+      if (! replies)
+        return callback(null, {});
+
+      Object.keys(replies).forEach(function (target) {
+        replies[target] = JSON.parse(replies[target]);
+      });
+
+      callback(null, replies);
     });
   };
 
@@ -27,23 +48,39 @@ module.exports = function () {
       throw new TypeError("user.id must be number.");
     if (typeof user.screen_name !== "string")
       throw new TypeError("user.screen_name must be string.");
-    if (typeof user.token !== "string")
-      throw new TypeError("user.token must be string.");
+    if (typeof user.profile_image_url !== "string")
+      throw new TypeError("user.profile_image_url must be string.");
+    if (typeof user.key !== "string")
+      throw new TypeError("user.key must be string.");
     if (typeof user.secret !== "string")
       throw new TypeError("user.secret must be string.")
 
-    client.hset("users", id, JSON.stringify({
-      id: user.id,
-      screen_name: user.screen_name,
-      token: user.token,
-      secret: user.secret
-    }), function (err, reply) {
+    model.get(id, function (err, reply) {
       if (err) {
         console.error(err);
-        return callback && callback(err);
+        return callback(err);
       }
 
-      callback && callback(null, reply);
+      if (reply)
+        user.command || (user.command = reply.command);
+
+      user = {
+        id: user.id,
+        screen_name: user.screen_name,
+        profile_image_url: user.profile_image_url,
+        key: user.key,
+        secret: user.secret,
+        command: user.command || ["call:"]
+      };
+
+      client.hset("users", id, JSON.stringify(user), function (err, reply) {
+        if (err) {
+          console.error(err);
+          return callback && callback(err);
+        }
+
+        callback && callback(null, user);
+      });
     });
   };
 

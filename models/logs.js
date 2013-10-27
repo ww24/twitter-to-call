@@ -14,6 +14,9 @@ module.exports = function () {
         return callback(err);
       }
 
+      if (! replies)
+        return callback(null, []);
+
       replies = replies.map(JSON.parse);
 
       callback(null, replies);

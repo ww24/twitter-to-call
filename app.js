@@ -11,7 +11,8 @@ var express = require("express"),
     path = require("path"),
     twilio = require("twilio"),
     routes = require("./routes"),
-    models = require("./models");
+    models = require("./models"),
+    libs = require("./libs");
 
 var app = express();
 app.configure(function () {
@@ -82,3 +83,16 @@ http.createServer(app).listen(app.get("port"), function () {
 });
 
 routes.call(app);
+
+models.users.getAll(function (err, users) {
+  if (err)
+    return console.error(err);
+
+  Object.keys(users).forEach(function (user_id_hex) {
+    var user = users[user_id_hex];
+    if (user.id && user.screen_name && user.key && user.secret)
+      libs.watch.addUser(user);
+    else
+      console.error("invalid user data");
+  });
+});
