@@ -10,7 +10,8 @@ var express = require("express"),
     http = require("http"),
     path = require("path"),
     twilio = require("twilio"),
-    routes = require("./routes");
+    routes = require("./routes"),
+    models = require("./models");
 
 var app = express();
 app.configure(function () {
