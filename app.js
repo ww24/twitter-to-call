@@ -7,12 +7,12 @@ var express = require("express"),
     flash = require("connect-flash"),
     hogan = require("hogan-express"),
     passport = require("passport"),
+    twilio = require("twilio"),
     http = require("http"),
     path = require("path"),
-    twilio = require("twilio"),
+    libs = require("./libs"),
     routes = require("./routes"),
-    models = require("./models"),
-    libs = require("./libs");
+    models = require("./models");
 
 var app = express();
 app.configure(function () {

@@ -7,7 +7,23 @@ module.exports = function () {
   var client = this[1],
       model = {};
 
-  model.getNumbers = function (id, callback) {
+  model.getNumber = function (id, target, callback) {
+    client.hget(id, target, function (err, reply) {
+      if (err) {
+        console.error(err);
+        return callback(err);
+      }
+
+      if (! reply)
+        return callback(null, null);
+
+      reply = JSON.parse(reply);
+
+      callback(null, reply);
+    });
+  };
+
+  model.getAllNumbers = function (id, callback) {
     client.hgetall(id, function (err, replies) {
       if (err) {
         console.error(err);
@@ -30,9 +46,12 @@ module.exports = function () {
       throw new TypeError("phone.target must be string.");
     if (typeof phone.number !== "string")
       throw new TypeError("phone.number must be string.");
+    if (typeof phone.certified !== "boolean")
+      throw new TypeError("phone.certified must be boolean");
 
     client.hset(id, phone.target, JSON.stringify({
-      number: phone.number
+      number: phone.number,
+      certified: phone.certified
     }), function (err, reply) {
       if (err) {
         console.error(err);

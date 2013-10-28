@@ -4,7 +4,9 @@
  */
 
 var Twitter = require("ntwitter"),
-    account = require("../account.json");
+    account = require("../account.json"),
+    models = require("../models"),
+    call = require("./call");
 
 var user_streames = {};
 
@@ -32,11 +34,13 @@ exports.addUser = function (user) {
     twitter: twitter,
     screen_name: user.screen_name,
     command: user.command,
-    events: []
+    events: [],
+    stream: {}
   };
 
   twitter.stream("user", {with: "user"}, function (stream) {
-    count = 16;
+    user_stream.stream = stream;
+
     stream.on("data", function (tweet) {
       // ツイート判定
       if (! tweet.text)
@@ -60,16 +64,35 @@ exports.addUser = function (user) {
           msg = splitTweet[2];
 
       console.log("to: " + to + ", message: " + msg);
-      /* to -> 電話番号変換処理 */
-      /* 発信処理 */
+      // to -> 電話番号変換処理
+      var user_id_hex = user.id.toString(16);
+      models.phones.getNumber(user_id_hex, to, function (err, phone) {
+        if (err)
+          return console.error(err);
+
+        if (! phone)
+          return console.log("Error: " + to + " is not defined");
+
+        console.log("phone number: " + phone.number);
+
+        // 発信処理
+        if (true || phone.certified) {
+          call(user_id_hex, phone.number, msg);
+        } else {
+          // 失敗
+          console.log(phone.number + " is not certified");
+        }
+      });
     });
 
     stream.on("end", function () {
+      console.log("stream end");
       console.log(arguments);
       /* 再接続処理 */
     });
 
     stream.on("destroy", function () {
+      console.log("stream destroy");
       console.log(arguments);
       /* 後片付け */
     });
@@ -82,6 +105,6 @@ exports.addUser = function (user) {
   return user_stream;
 };
 
-exports.delUser = function () {
-
+exports.delUser = function (user) {
+  user_streames[user.id].stream.destroy();
 };

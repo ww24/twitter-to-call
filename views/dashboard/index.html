@@ -14,6 +14,77 @@
       </div>
     </div>
     {{/user}}
+    <div>
+      <h2>電話番号リスト</h2>
+      <div class="panel panel-default">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>名前</th>
+              <th>電話番号</th>
+              <th>ステータス</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#phones}}
+            <tr>
+              <td>{{id}}</td>
+              <td>{{target}}</td>
+              <td>{{number}}</td>
+              <td>
+                {{#certified}}
+                <button type="button" class="btn btn-success btn-xs">
+                  <span class="glyphicon glyphicon-ok-circle"></span> 認証済み
+                </button>
+                {{/certified}}
+                {{^certified}}
+                <button type="button" class="btn btn-danger btn-xs">
+                  <span class="glyphicon glyphicon-warning-sign"></span> 認証待ち
+                </button>
+                {{/certified}}
+              </td>
+            </tr>
+            {{/phones}}
+          </tbody>
+        </table>
+      </div>
+
+      <h2>発信ログ</h2>
+      <div class="panel panel-default">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>電話番号</th>
+              <th>メッセージ</th>
+              <th>ステータス</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#logs}}
+            <tr>
+              <td>{{id}}</td>
+              <td>{{to}}</td>
+              <td>{{msg}}</td>
+              <td>
+                {{#status}}
+                <button type="button" class="btn btn-success btn-xs">
+                  <span class="glyphicon glyphicon-phone-alt"></span> 通話終了
+                </button>
+                {{/status}}
+                {{^status}}
+                <button type="button" class="btn btn-info btn-xs">
+                  <span class="glyphicon glyphicon-earphone"></span> 通話中
+                </button>
+                {{/status}}
+              </td>
+            </tr>
+            {{/logs}}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
 {{> footer}}

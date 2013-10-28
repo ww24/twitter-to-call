@@ -4,7 +4,7 @@
  */
 
 var redis = require("redis"),
-    libs = require("../libs");
+    loader = require("../libs/loader");
 
 module.exports = (function () {
   var clients = ["users", "phones", "logs"];
@@ -45,9 +45,10 @@ module.exports = (function () {
 
     // phone numbers
     clients[1].hset("user_id_hex", "母", JSON.stringify({
-      number: "+819012345678"
+      number: "+819012345678",
+      certified: false
     }), function () {
-      models.phones.getNumbers("user_id_hex", function (err, data) {
+      models.phones.getAllNumbers("user_id_hex", function (err, data) {
         if (err)
           return console.error(err);
 
@@ -57,10 +58,11 @@ module.exports = (function () {
 
     // logs
     clients[2].lpush("user_id_hex", JSON.stringify({
-      timestamp: Date.now(),
-      to: "+819012345678",
-      msg: "メッセージ",
-      time: 300 //ms
+      status: 0, // "calling" => 0, "done" => 1
+      start: Date.now(),
+      end: Date.now(),
+      to: "819012345678",
+      msg: "メッセージ"
     }), function () {
       models.logs.get("user_id_hex", function (err, data) {
         if (err)
@@ -71,6 +73,6 @@ module.exports = (function () {
     });
   });
 
-  var models = libs.loader.call(clients, __dirname, null);
+  var models = loader.call(clients, __dirname, null);
   return models;
 })();
