@@ -1,4 +1,5 @@
 {
+  "url": "http://example.com",
   "twitter": {
     "key": "twitter API consumer key",
     "secret": "twitter API consumer secret",

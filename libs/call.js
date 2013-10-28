@@ -11,8 +11,8 @@ twilio = twilio(account.twilio.sid, account.twilio.token);
 
 module.exports = function (user_id_hex, number, message, callback) {
   twilio.calls.create({
-    url: "http://tw2c.appcloud.info/TwiML/call.xml?msg=" + encodeURIComponent(message),
-    StatusCallback: "http://tw2c.appcloud.info/TwiML/calldone",
+    url: account.url + "/TwiML/call.xml?msg=" + encodeURIComponent(message),
+    StatusCallback: account.url + "/TwiML/calldone",
     to: number,
     from: account.twilio.number
   }, function (err, call, res) {
