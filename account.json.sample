@@ -1,10 +1,17 @@
 {
   "twitter": {
     "key": "twitter API consumer key",
-    "secret": "twitter API consumer secret"
+    "secret": "twitter API consumer secret",
+    "callback": "twitter API Auth Callback URL"
   },
   "twilio": {
     "sid": "twilio API sid",
-    "token": "twilio API token"
+    "token": "twilio API token",
+    "number": "twilio telephone number"
+  },
+  "redis": {
+    "port": 6379,
+    "host": "127.0.0.1",
+    "pass": "password"
   }
 }

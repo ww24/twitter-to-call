@@ -26,7 +26,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new TwitterStrategy({
     consumerKey: account.twitter.key,
     consumerSecret: account.twitter.secret,
-    callbackURL: "http://localhost:61311/auth/callback"
+    callbackURL: account.twitter.callback
   },
   function(key, secret, profile, done) {
     console.log("token: " + key);

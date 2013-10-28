@@ -4,13 +4,16 @@
  */
 
 var redis = require("redis"),
-    loader = require("../libs/loader");
+    loader = require("../libs/loader"),
+    account = require("../account.json");
 
 module.exports = (function () {
   var clients = ["users", "phones", "logs"];
   
   clients = clients.map(function (name, index) {
-    var client = redis.createClient();
+    var client = redis.createClient(account.redis.port, account.redis.host, {
+      auth_pass: account.redis.pass
+    });
 
     client.select(index);
     client.on("error", function (err) {

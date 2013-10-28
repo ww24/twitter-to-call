@@ -1,5 +1,6 @@
 port 6379
 bind 127.0.0.1
+requirepass password
 timeout 0
 dir ./redis
 
