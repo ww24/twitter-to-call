@@ -58,6 +58,7 @@
               <th>#</th>
               <th>電話番号</th>
               <th>メッセージ</th>
+              <th>通話時間</th>
               <th>ステータス</th>
             </tr>
           </thead>
@@ -67,6 +68,10 @@
               <td>{{id}}</td>
               <td>{{to}}</td>
               <td>{{msg}}</td>
+              <td>
+                {{#time}}{{time}}sec{{/time}}
+                {{^time}}--{{/time}}
+              </td>
               <td>
                 {{#status}}
                 <button type="button" class="btn btn-success btn-xs">
