@@ -67,6 +67,15 @@ app.configure(function () {
   app.use(flash());
 
   // csrf settings
+  app.use(function (req, res, next) {
+    // Skip CSRF check
+    if (req.url.split("/TwiML/")[0] === "") {
+      console.log("Skip CSRF check");
+      req.query._csrf = req.csrfToken();
+    }
+    
+    next();
+  });
   app.use(express.csrf());
   app.use(function (req, res, next) {
     // set csrf token
