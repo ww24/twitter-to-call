@@ -12,7 +12,8 @@ var express = require("express"),
     path = require("path"),
     libs = require("./libs"),
     routes = require("./routes"),
-    models = require("./models");
+    models = require("./models"),
+    account = require("./account.json");
 
 var app = express();
 app.configure(function () {
@@ -51,7 +52,10 @@ app.configure(function () {
   // parser settings
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({secret: "ss;twtw:call"}));
+  app.use(express.cookieSession({
+    key: "tw2c",
+    secret: account.session.secret
+  }));
 
   // passport settings
   app.use(passport.initialize());

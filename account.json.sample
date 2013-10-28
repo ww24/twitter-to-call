@@ -1,5 +1,8 @@
 {
   "url": "http://example.com",
+  "session": {
+    "secret": "session secret"
+  },
   "twitter": {
     "key": "twitter API consumer key",
     "secret": "twitter API consumer secret",
