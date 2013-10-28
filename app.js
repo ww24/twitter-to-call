@@ -67,19 +67,17 @@ app.configure(function () {
   app.use(flash());
 
   // csrf settings
+  var csrf = express.csrf();
   app.use(function (req, res, next) {
     // Skip CSRF check
-    if (req.url.split("/TwiML/")[0] === "") {
-      console.log("Skip CSRF check");
-      req.query._csrf = req.csrfToken();
-    }
-    
-    next();
+    if (req.url.split("/TwiML/")[0] === "")
+      return next();
+
+    csrf.apply(null, arguments);
   });
-  app.use(express.csrf());
   app.use(function (req, res, next) {
     // set csrf token
-    res.locals.csrf_token = req.csrfToken();
+    res.locals.csrf_token = req.csrfToken && req.csrfToken();
     next();
   });
 
