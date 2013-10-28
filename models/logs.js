@@ -132,25 +132,25 @@ module.exports = function () {
 
   // 通話 Event
   model.events = {};
-  model.events.get = function (sid) {
+  model.events.get = function (sid, callback) {
     client.hget("CallSid", sid, function (err, log_info) {
       if (err) {
         console.log(err);
-        return callback && callback(err);
+        return callback(err);
       }
 
       if (! log_info)
-        return callback && callback(null, null);
+        return callback(null, null);
 
       log_info = JSON.parse(log_info);
 
       client.hdel("CallSid", sid, function (err, reply) {
         if (err) {
           console.log(err);
-          return callback && callback(err);
+          return callback(err);
         }
 
-        callback && callback(null, log_info);
+        callback(null, log_info);
       })
     });
   };
