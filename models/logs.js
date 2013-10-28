@@ -155,9 +155,9 @@ module.exports = function () {
     });
   };
   model.events.set = function (sid, log_info, callback) {
-    if (log_info.user_id_hex !== "string")
+    if (typeof log_info.user_id_hex !== "string")
       throw new TypeError("log_info.user_id_hex must be string");
-    if (log_info.index !== "number")
+    if (typeof log_info.index !== "number")
       throw new TypeError("log_info.index must be number");
 
     client.hset("CallSid", sid, JSON.stringify(log_info), function (err, reply) {
