@@ -74,6 +74,19 @@ module.exports = (function () {
         console.log(data);
       });
     });
+
+    // logs events
+    client[2].hset("CallSid", "sid", JSON.stringify({
+      user_id_hex: "user_id_hex",
+      index: 0 // log_index
+    }), function () {
+      models.logs.events.get("CallSid", "sid", function (err, log_info) {
+        if (err)
+          return console.error(err);
+
+        console.log(log_info);
+      });
+    });
   });
 
   var models = loader.call(clients, __dirname, null);
