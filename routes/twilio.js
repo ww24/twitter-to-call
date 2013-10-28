@@ -37,19 +37,20 @@ module.exports = function () {
 
   // 発信用 XML
   app.post("/TwiML/call.xml", function (req, res) {
-    // set XML Content-Type header
-    res.set("Content-Type", "application/xml; charset=utf-8");
-
     if (! req.query.msg)
       return res.send(500);
 
+    // set XML Content-Type header
+    res.set("Content-Type", "application/xml; charset=utf-8");
+
     res.locals({
+      template: "TwiML/call.xml",
       message: req.query.msg
     });
 
     // debug get queries
     console.log(req.query);
 
-    res.render("TwiML/call.xml");
+    res.render(res.locals.template);
   });
 };

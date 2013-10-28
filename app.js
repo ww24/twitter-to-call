@@ -26,10 +26,10 @@ app.configure(function () {
   app.engine("html", hogan);
   app.engine("xml", hogan);
   app.set("partials", {
-    menu      : "partials/menu",
-    modal     : "partials/modal",
-    header    : "partials/header",
-    footer    : "partials/footer"
+    menu      : "partials/menu.html",
+    modal     : "partials/modal.html",
+    header    : "partials/header.html",
+    footer    : "partials/footer.html"
   });
   app.locals({
     menu: function (title) {
