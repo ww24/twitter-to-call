@@ -53,7 +53,7 @@ module.exports = function () {
       msg: log.msg
     };
 
-    client.lpush(id, JSON.stringify(log), function (err, reply) {
+    client.rpush(id, JSON.stringify(log), function (err, reply) {
       if (err) {
         console.error(err);
         return callback && callback(err);
@@ -122,7 +122,7 @@ module.exports = function () {
   model.delAll = function (id, callback) {
     client.del(id, function (err, reply) {
       if (err) {
-        console.log(err);
+        console.error(err);
         return callback && callback(err);
       }
 
@@ -135,7 +135,7 @@ module.exports = function () {
   model.events.get = function (sid, callback) {
     client.hget("CallSid", sid, function (err, log_info) {
       if (err) {
-        console.log(err);
+        console.error(err);
         return callback(err);
       }
 
@@ -146,7 +146,7 @@ module.exports = function () {
 
       client.hdel("CallSid", sid, function (err, reply) {
         if (err) {
-          console.log(err);
+          console.error(err);
           return callback(err);
         }
 
@@ -162,7 +162,7 @@ module.exports = function () {
 
     client.hset("CallSid", sid, JSON.stringify(log_info), function (err, reply) {
       if (err) {
-        console.log(err);
+        console.error(err);
         return callback && callback(err);
       }
 

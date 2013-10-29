@@ -87,7 +87,7 @@ module.exports = function () {
   model.del = function (id, callback) {
     client.hdel("users", id, function (err, reply) {
       if (err) {
-        console.log(err);
+        console.error(err);
         return callback && callback(err);
       }
 
