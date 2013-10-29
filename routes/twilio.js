@@ -18,12 +18,17 @@ module.exports = function () {
     // debug request body
     console.log(req.body);
 
-    if (! req.body.CallSid) {
-      res.end(500);
-      return console.error("CallSid is undefined.");
-    }
-
     models.logs.events.get(req.body.CallSid, function (err, log_info) {
+      if (err) {
+        res.send(500);
+        return console.error(err);
+      }
+
+      if (! log_info) {
+        res.send(500);
+        return console.error("log_info is null");
+      }
+
       models.logs.get(log_info.user_id_hex, log_info.index, function (err, log) {
         log.status = 1;
         log.end = Date.now();
@@ -47,9 +52,6 @@ module.exports = function () {
       template: "TwiML/call.xml",
       message: req.query.msg
     });
-
-    // debug get queries
-    console.log(req.query);
 
     res.render(res.locals.template);
   });

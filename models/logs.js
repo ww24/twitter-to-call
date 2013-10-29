@@ -86,7 +86,7 @@ module.exports = function () {
     log = {
       status: log.status,
       start: log.start,
-      end: log.eng,
+      end: log.end,
       to: log.to,
       msg: log.msg
     };
