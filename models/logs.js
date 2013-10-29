@@ -53,21 +53,15 @@ module.exports = function () {
       msg: log.msg
     };
 
-    client.rpush(id, JSON.stringify(log), function (err, reply) {
+    client.lpush(id, JSON.stringify(log), function (err, reply) {
       if (err) {
         console.error(err);
         return callback && callback(err);
       }
 
-      var index = reply - 1;
-      log.end = index;
+      var index = -reply;
 
-      model.set(id, index, log, function (err, reply) {
-        if (err)
-          return callback && callback(err);
-
-        callback && callback(null, index);
-      });
+      callback && callback(null, index);
     });
   };
 

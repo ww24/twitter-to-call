@@ -35,13 +35,15 @@ module.exports = function () {
 
       // 通話ログ
       models.logs.getAll(user_id_hex, function (err, logs) {
+        var count = logs.length;
+
         res.locals.logs = logs.map(function (log, index) {
           if (log.end > 0) {
             log.time = ~~((log.end - log.start) / 1000);
           }
-          log.id = index;
+          log.id = count--;
           return log;
-        }).reverse();
+        });
 
         res.render(res.locals.template);
       });
