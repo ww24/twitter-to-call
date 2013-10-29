@@ -3,25 +3,18 @@
  *
  */
 
-var test = {},
-    models = require("../models"),
+var models = require("../models"),
     libs = require("../libs");
 
 var passport = require("passport"),
     TwitterStrategy = require("passport-twitter").Strategy,
     account = require("../account");
 
+// session serializer, deserializer
 passport.serializeUser(function(user, done) {
-  console.log("serializeUser: " + user.id);
-  test[user.id] = user;
-  done(null, user.id);
+  done(null, user.id.toString(16));
 });
-
-passport.deserializeUser(function(id, done) {
-  var user = test[id];
-  console.log("deserializeUser: " + user.screen_name);
-  done(null, user);
-});
+passport.deserializeUser(models.users.get);
 
 passport.use(new TwitterStrategy({
     consumerKey: account.twitter.key,
@@ -29,9 +22,6 @@ passport.use(new TwitterStrategy({
     callbackURL: account.twitter.callback
   },
   function(key, secret, profile, done) {
-    console.log("token: " + key);
-    console.log("secret: " + secret);
-
     var user_id_hex = profile._json.id.toString(16);
     var user = {
       id: profile._json.id,
