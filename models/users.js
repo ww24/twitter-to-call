@@ -44,6 +44,8 @@ module.exports = function () {
   };
 
   model.set = function (id, user, callback) {
+    var retry = arguments.callee.bind(this, id, user, callback);
+
     if (typeof user.id !== "number")
       throw new TypeError("user.id must be number.");
     if (typeof user.screen_name !== "string")
@@ -55,8 +57,10 @@ module.exports = function () {
     if (typeof user.secret !== "string")
       throw new TypeError("user.secret must be string.")
 
+    client.watch(id);
     model.get(id, function (err, reply) {
       if (err) {
+        client.unwatch(id);
         console.error(err);
         return callback(err);
       }
@@ -73,11 +77,17 @@ module.exports = function () {
         command: user.command || ["call:"]
       };
 
-      client.hset("users", id, JSON.stringify(user), function (err, reply) {
-        if (err) {
-          console.error(err);
+      var multi = client.multi();
+      multi.hset("users", id, JSON.stringify(user), function (err, reply) {
+        if (err)
+          return console.error(err);
+      });
+      multi.exec(function (err, replies) {
+        if (err)
           return callback && callback(err);
-        }
+
+        if (replies === null)
+          return retry();
 
         callback && callback(null, user);
       });
