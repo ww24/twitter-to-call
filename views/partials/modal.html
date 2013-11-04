@@ -21,10 +21,11 @@
             <div class="col-xs-9">
               <div class="input-group">
                 <span class="input-group-addon">+81</span>
-                <input type="text" name="number" id="phone-number" class="form-control" placeholder="5031596741" required>
+                <input type="tel" name="number" id="phone-number" class="form-control" placeholder="5031596741" required>
               </div>
             </div>
           </div>
+          <div id="add-phone-modal-error" class="alert alert-danger"></div>
           <div class="panel panel-info">
             <div class="panel-heading">
               注意
@@ -34,12 +35,73 @@
               指定できる番号は日本国内のものに限ります。
             </div>
           </div>
-          <div id="add-phone-modal-error" class="alert alert-danger"></div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button id="add-phone-modal-submit" data-loading-text="Saving..." type="submit" class="btn btn-primary">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- verify Phone Number dialog -->
+<div id="verify-phone-modal" class="modal fade" tabindex="-1" role="dialog" aria-labbeldby="PhoneAdd" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">
+          <span class="glyphicon glyphicon-ok"></span> Verify Phone Number
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="phone-name" class="col-xs-3 control-label">認証コード</label>
+            <div class="col-xs-9">
+              <input type="text" name="name" id="phone-name" class="form-control" readonly value="3537">
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              手順
+            </div>
+            <div class="panel-body">
+              <ol>
+                <li><code>050-3159-6741</code> へ番号を通知して電話をかけます。</li>
+                <li>音声の指示に従って、上記の認証コードをダイヤルしてください。</li>
+                <li>認証コードの入力が終わったら、 Verify ボタンを押して下さい。</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="verify-phone-modal-submit" data-loading-text="Verifying..." type="button" class="btn btn-primary">Verify</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete Phone Number dialog -->
+<div id="del-phone-modal" class="modal fade" tabindex="-1" role="dialog" aria-labbeldby="PhoneAdd" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content" role="form">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">
+          <span class="glyphicon glyphicon-remove"></span> Delete Phone Number
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>本当に電話番号を 1 件削除しますか？</p>
+        <div id="del-phone-modal-error" class="alert alert-danger"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="del-phone-modal-submit" data-loading-text="Deleting..." type="submit" class="btn btn-danger">Delete</button>
       </div>
     </form>
   </div>

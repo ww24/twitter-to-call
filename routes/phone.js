@@ -47,10 +47,37 @@ module.exports = function () {
       certified: false
     };
     models.phones.setNumber(user_id_hex, phone, function (err, status) {
-      if (err)
-        return console.error(err);
+      if (err) {
+        console.error(err);
+        return res.send(500);
+      }
 
-      console.log(status);
+      res.send({
+        status: "ok"
+      });
+    });
+  });
+
+  app.post("/phone/del/:target", function (req, res) {
+    if (! req.xhr)
+      return res.send(400, {
+        status: "ng",
+        error: "Bad Request"
+      });
+
+    if (! req.user)
+      return res.send(401, {
+        status: "ng",
+        error: "Unauthorized"
+      });
+
+    var user_id_hex = req.user.id.toString(16);
+    models.phones.delNumber(user_id_hex, req.params.target, function (err, status) {
+      if (err) {
+        console.error(err);
+        return res.send(500);
+      }
+
       res.send({
         status: "ok"
       });

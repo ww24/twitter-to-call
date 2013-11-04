@@ -17,13 +17,14 @@
     <div>
       <h2>電話番号リスト</h2>
       <div class="panel panel-default">
-        <table class="table table-hover">
+        <table class="table table-hover" id="phones">
           <thead>
             <tr>
               <th>#</th>
               <th>名前</th>
               <th>電話番号</th>
               <th>ステータス</th>
+              <th>削除</th>
             </tr>
           </thead>
           <tbody>
@@ -39,10 +40,15 @@
                 </button>
                 {{/certified}}
                 {{^certified}}
-                <button type="button" class="btn btn-danger btn-xs">
+                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" href="#verify-phone-modal">
                   <span class="glyphicon glyphicon-warning-sign"></span> 認証待ち
                 </button>
                 {{/certified}}
+              </td>
+              <td>
+                <button type="button" class="delete btn btn-warning btn-xs" data-toggle="modal" href="#del-phone-modal" data-phone-target="{{target}}">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
               </td>
             </tr>
             {{/phones}}
