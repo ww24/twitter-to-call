@@ -16,13 +16,20 @@ module.exports = function (user_id_hex, number, message, callback) {
     to: number,
     from: account.twilio.number
   }, function (err, call, res) {
-    if (err)
-      console.error(err);
-    
     var log = {
       to: number,
       msg: message
     };
+
+    if (err) {
+      log.error = JSON.stringify(err);
+      models.logs.add(user_id_hex, log, function (err, index) {
+        if (err)
+          return console.error(err);
+        /* エラーログなので models.logs.events.set は不要 */
+      });
+      return console.error(err);
+    }
 
     models.logs.add(user_id_hex, log, function (err, index) {
       var log_info = {

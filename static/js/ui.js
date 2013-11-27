@@ -4,6 +4,7 @@ $(function() {
   var $useButton = $("#use-button"),
       $usingGuide = $("#using-guide");
   
+  // use button on top-page
   $useButton.click(function() {
     $usingGuide.animate({
       height: "500px"
@@ -13,7 +14,9 @@ $(function() {
     
     $(this).hide();
   });
+});
 
+$(function() {
   // Add Phone Number
   var $addPhoneModal = $("#add-phone-modal"),
       $addPhoneModalError = $("#add-phone-modal-error").hide(),
@@ -60,7 +63,9 @@ $(function() {
       $addPhoneModalSubmit.button("reset");
     });
   });
+});
 
+$(function () {
   // Verify Phone Number
   var $verifyPhoneModalSubmit = $("#verify-phone-modal-submit");
   $verifyPhoneModalSubmit.click(function () {
@@ -69,7 +74,9 @@ $(function() {
       location.reload(true);
     }, 1000);
   });
+});
 
+$(function () {
   // Delete Phone Number
   var $delPhoneModal = $("#del-phone-modal"),
       $delPhoneModalError = $("#del-phone-modal-error").hide(),
@@ -115,5 +122,19 @@ $(function() {
     }).always(function () {
       $delPhoneModalSubmit.button("reset");
     });
+  });
+});
+
+$(function () {
+  // error model
+  $("#logs button.status-error").click(function () {
+    var error = $(this).attr("data-error");
+    try {
+      error = JSON.stringify(JSON.parse(error), null, "  ");
+      error = "エラー情報<br><pre>" + error + "</pre>";
+    } catch (e) {
+      console.error(e);
+    }
+    $("#error-modal-message").html(error);
   });
 });

@@ -63,19 +63,29 @@ exports.addUser = function (user) {
       var to = splitTweet[1],
           msg = splitTweet[2];
 
-      console.log("to: " + to + ", message: " + msg);
       // to -> 電話番号変換処理
       var user_id_hex = user.id.toString(16);
       models.phones.getNumber(user_id_hex, to, function (err, phone) {
         if (err)
           return console.error(err);
 
-        if (! phone)
-          return console.log("Error: " + to + " is not defined");
-
-        console.log("phone number: " + phone.number);
+        // 該当する phone number が存在しない場合
+        if (! phone) {
+          var log = {
+            error: to + " は登録されていません。",
+            to: "+810000000000",
+            msg: msg
+          };
+          models.logs.add(user_id_hex, log, function (err, index) {
+            if (err)
+              return console.error(err);
+            /* エラーログなので models.logs.events.set は不要 */
+          });
+          return;
+        }
 
         // 発信処理
+        /* 要修正!! */
         if (true || phone.certified) {
           call(user_id_hex, phone.number, msg);
         } else {

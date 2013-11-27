@@ -58,7 +58,7 @@
 
       <h2>発信ログ</h2>
       <div class="panel panel-default">
-        <table class="table table-hover">
+        <table class="table table-hover" id="logs">
           <thead>
             <tr>
               <th>#</th>
@@ -79,16 +79,23 @@
                 {{^time}}--{{/time}}
               </td>
               <td>
-                {{#status}}
+                {{#error}}
+                <button type="button" class="status-error btn btn-warning btn-xs"   data-toggle="modal" href="#error-modal" data-error="{{error}}">
+                  <span class="glyphicon glyphicon-bell"></span> エラー
+                </button>
+                {{/error}}
+                {{^error}}
+                  {{#status}}
                 <button type="button" class="btn btn-success btn-xs">
                   <span class="glyphicon glyphicon-phone-alt"></span> 通話終了
                 </button>
-                {{/status}}
-                {{^status}}
+                  {{/status}}
+                  {{^status}}
                 <button type="button" class="btn btn-info btn-xs">
                   <span class="glyphicon glyphicon-earphone"></span> 通話中
                 </button>
-                {{/status}}
+                  {{/status}}
+                {{/error}}
               </td>
             </tr>
             {{/logs}}

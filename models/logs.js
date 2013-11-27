@@ -46,6 +46,7 @@ module.exports = function () {
       throw new TypeError("log.msg must be string");
 
     log = {
+      error: log.error,
       status: 0,
       start: Date.now(),
       end: 0, // for index
@@ -78,6 +79,7 @@ module.exports = function () {
       throw new TypeError("log.msg must be string");
 
     log = {
+      error: log.error,
       status: log.status,
       start: log.start,
       end: log.end,
