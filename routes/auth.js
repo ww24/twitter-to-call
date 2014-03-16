@@ -11,7 +11,7 @@ var passport = require("passport"),
     account = require("../account");
 
 // session serializer, deserializer
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user.id.toString(16));
 });
 passport.deserializeUser(models.users.get);
@@ -21,7 +21,7 @@ passport.use(new TwitterStrategy({
     consumerSecret: account.twitter.secret,
     callbackURL: account.twitter.callback
   },
-  function(key, secret, profile, done) {
+  function (key, secret, profile, done) {
     var user_id_hex = profile._json.id.toString(16);
     var user = {
       id: profile._json.id,
