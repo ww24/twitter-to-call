@@ -3,14 +3,34 @@
  * 電話番号認証, 通話終了イベント, 発信用フォーマット
  */
 
-var models = require("../models");
+var twilio = require("twilio"),
+    models = require("../models");
 
 module.exports = function () {
   var app = this;
 
   // 電話番号認証
   app.post("/TwiML/default.xml", function (req, res) {
-    
+    res.send();
+  });
+  app.post("/TwiML/verify", function (req, res) {
+    var digits = req.body.Digits,
+        resp = new twilio.TwimlResponse();
+
+    var message = "認証コード " + digits + " は正しくありません。";
+    if (false/*認証チェック*/) {
+      message = "認証成功しました。";
+    }
+
+    resp.say(message, {
+      voice: "alice",
+      language: "ja-JP"
+    });
+
+    // set XML Content-Type header
+    res.set("Content-Type", "application/xml; charset=utf-8");
+
+    res.send(resp.toString());
   });
 
   // 通話終了時 Event
