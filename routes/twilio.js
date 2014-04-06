@@ -10,8 +10,15 @@ module.exports = function () {
   var app = this;
 
   // 電話番号認証
-  app.post("/TwiML/default.xml", function (req, res) {
-    res.send();
+  app.post("/TwiML/callback.xml", function (req, res) {
+    // set XML Content-Type header
+    res.set("Content-Type", "application/xml; charset=utf-8");
+
+    res.locals({
+      template: "TwiML/callback.xml"
+    });
+
+    res.render(res.locals.template);
   });
   app.post("/TwiML/verify", function (req, res) {
     var digits = req.body.Digits,
