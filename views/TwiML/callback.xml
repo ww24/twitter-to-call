@@ -2,7 +2,12 @@
 <Response>
     <Say voice="alice" language="ja-JP">{{greeting}}</Say>
     <Say voice="alice" language="ja-JP">こちらは、 つぶやき Call です。</Say>
+    {{^valid_number}}
+    <Say voice="alice" language="ja-JP">恐れ入りますが、番号を通知してお掛け直しください。</Say>
+    {{/valid_number}}
+    {{#valid_number}}
     <Gather action="/TwiML/verify" timeout="10" numDigits="4">
       <Say voice="alice" language="ja-JP">4桁の認証コードを入力して下さい。</Say>
     </Gather>
+    {{/valid_number}}
 </Response>

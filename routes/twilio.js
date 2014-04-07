@@ -11,11 +11,30 @@ module.exports = function () {
 
   // 電話番号認証
   app.post("/TwiML/callback.xml", function (req, res) {
+    var from = req.body.From;
+
+    // invalid format
+    if (typeof from !== "string")
+      return res.send(400);
+
     // set XML Content-Type header
     res.set("Content-Type", "application/xml; charset=utf-8");
 
+    var hour = new Date().getHours(),
+        greeting = "こんにちは。";
+    if (4 <= hour && hour < 11) {
+      greeting = "おはようございます。";
+    } else if (18 <= hour || hour < 4) {
+      greeting = "こんばんは。";
+    }
+
+    console.log("From: ", req.body.From);
+
     res.locals({
-      template: "TwiML/callback.xml"
+      template: "TwiML/callback.xml",
+      // 通知, 非通知(ANONYMOUS) チェック
+      valid_number: from !== "+266696687",
+      greeting: greeting
     });
 
     res.render(res.locals.template);
@@ -24,7 +43,10 @@ module.exports = function () {
     var digits = req.body.Digits,
         resp = new twilio.TwimlResponse();
 
-    var message = "認証コード " + digits + " は正しくありません。";
+    // "0896" -> "0 8 9 6"
+    var digits_message = digits.split("").join(" ");
+
+    var message = "認証コード " + digits_message + " は正しくありません。";
     if (false/*認証チェック*/) {
       message = "認証成功しました。";
     }
