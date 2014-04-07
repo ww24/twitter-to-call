@@ -20,6 +20,7 @@ module.exports = function () {
     // set XML Content-Type header
     res.set("Content-Type", "application/xml; charset=utf-8");
 
+    // set greeting message
     var hour = new Date().getHours(),
         greeting = "こんにちは。";
     if (4 <= hour && hour < 11) {
@@ -27,8 +28,6 @@ module.exports = function () {
     } else if (18 <= hour || hour < 4) {
       greeting = "こんばんは。";
     }
-
-    console.log("From: ", req.body.From);
 
     res.locals({
       template: "TwiML/callback.xml",
@@ -46,7 +45,7 @@ module.exports = function () {
     // "0896" -> "0 8 9 6"
     var digits_message = digits.split("").join(" ");
 
-    var message = "認証コード " + digits_message + " は正しくありません。";
+    var message = "認証コード、 " + digits_message + " は、正しくありません。";
     if (false/*認証チェック*/) {
       message = "認証成功しました。";
     }
