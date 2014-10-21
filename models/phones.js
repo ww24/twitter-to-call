@@ -51,7 +51,8 @@ module.exports = function () {
 
     client.hset(id, phone.target, JSON.stringify({
       number: phone.number,
-      certified: phone.certified
+      certified: phone.certified,
+      verify_number: phone.verify_number
     }), function (err, reply) {
       if (err) {
         console.error(err);
